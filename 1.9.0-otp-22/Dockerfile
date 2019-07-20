@@ -1,8 +1,8 @@
-FROM ubuntu:18.04
+FROM ubuntu:bionic
 MAINTAINER Herman verschooten <Herman@verschooten.net>
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update -qq && apt-get -y install apt-utils apt-transport-https curl wget gnupg
+RUN apt-get update  && apt-get -y install apt-utils apt-transport-https curl wget gnupg
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
@@ -19,7 +19,7 @@ RUN apt-get -y install git-core  \
       build-essential autoconf m4 libncurses5-dev libwxgtk3.0-dev \
       libgl1-mesa-dev libglu1-mesa-dev libssh-dev unixodbc-dev \
       locales inotify-tools \
-      esl-erlang
+      esl-erlang mysql-client
 #
 # ASDF
 RUN git clone https://github.com/asdf-vm/asdf.git /.asdf --branch v0.5.0
