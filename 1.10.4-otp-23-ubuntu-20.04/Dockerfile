@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 MAINTAINER Herman verschooten <Herman@verschooten.net>
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -8,19 +8,19 @@ ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-RUN echo 1
 #
 # ERLANG
 RUN curl -O https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
 RUN dpkg -i erlang-solutions_2.0_all.deb
 RUN rm erlang-solutions_2.0_all.deb
 
-RUN apt-get update -qq
+RUN apt-get update
 RUN apt-get -y install git-core  \
-      build-essential autoconf m4 libncurses5-dev libwxgtk3.0-dev \
+      build-essential autoconf m4 libncurses5-dev libwxgtk3.0-gtk3-dev \
       libgl1-mesa-dev libglu1-mesa-dev libssh-dev unixodbc-dev \
       locales inotify-tools \
-      esl-erlang mysql-client
+      esl-erlang mysql-client \
+      imagemagick
 #
 # ASDF
 RUN git clone https://github.com/asdf-vm/asdf.git /.asdf --branch v0.7.8
@@ -39,7 +39,7 @@ ENV LANGUAGE nl_BE:nl
 RUN asdf install elixir 1.10.4-otp-23
 RUN asdf global elixir 1.10.4-otp-23
 
-RUN apt-get -y install wget ca-certificates
+RUN apt-get install wget ca-certificates
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
 RUN apt-get update
