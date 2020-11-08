@@ -36,8 +36,8 @@ RUN locale-gen nl_BE.UTF-8 en_US.UTF-8
 ENV LANG nl_BE.UTF-8
 ENV LANGUAGE nl_BE:nl
 
-RUN asdf install elixir 1.11.2-otp-23
-RUN asdf global elixir 1.11.2-otp-23
+RUN asdf install elixir ELIXIR_VERSION
+RUN asdf global elixir ELIXIR_VERSION
 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'

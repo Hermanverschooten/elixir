@@ -5,13 +5,26 @@ then
   exit
 fi
 
-docker build -t "hermanverschooten/elixir:$1" $1
-docker build -t "hermanverschooten/elixir:$1-node" "$1-node"
-docker push "hermanverschooten/elixir:$1"
-docker push "hermanverschooten/elixir:$1-node"
+VERSION=$1
 
-docker build -t "hermanverschooten/elixir:$1-ubuntu-20.04" "$1-ubuntu-20.04"
-docker build -t "hermanverschooten/elixir:$1-node-ubuntu-20.04" "$1-node-ubuntu-20.04"
+generate() {
 
-docker push "hermanverschooten/elixir:$1-ubuntu-20.04"
-docker push "hermanverschooten/elixir:$1-node-ubuntu-20.04"
+mkdir -p "$VERSION$1"
+sed "s/ELIXIR_VERSION/1.11.2-otp-23/g" "templates/elixir$1" > "$VERSION$1/Dockerfile"
+docker build -t "hermanverschooten/elixir:$VERSION$1" $VERSION$1
+docker push "hermanverschooten/elixir:$VERSION$1"
+}
+
+generate
+generate "-node"
+generate "-ubuntu-20.04"
+generate "-node-ubuntu-20.04"
+
+# docker build -t "hermanverschooten/elixir:$VERSION-node" "$VERSION-node"
+# docker push "hermanverschooten/elixir:$VERSION-node"
+
+# docker build -t "hermanverschooten/elixir:$VERSION-ubuntu-20.04" "$VERSION-ubuntu-20.04"
+# docker build -t "hermanverschooten/elixir:$VERSION-node-ubuntu-20.04" "$VERSION-node-ubuntu-20.04"
+
+# docker push "hermanverschooten/elixir:$VERSION-ubuntu-20.04"
+# docker push "hermanverschooten/elixir:$VERSION-node-ubuntu-20.04"
